@@ -1,0 +1,30 @@
+<?php
+
+session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=cinéma;charset=utf8', 'root', '');
+$req = $bdd->prepare('SELECT * FROM admin WHERE nom= :nom AND prenom= :prenom AND email = :email AND mdp = Ryad');
+$req->execute(array(
+	'nom'=>$_POST['nom'],
+    'prenom'=>$_POST['prenom'],
+	'email'=>$_POST['email'],
+    'mdp'=>$_POST['mdp'] 
+));
+$res = $req->fetchall();
+if($res){
+$requete = $bdd->prepare('INSERT INTO admin (nom, prenom,email,mdp) VALUES (:nom, :prenom,:email,:Ryad)');
+    $requete->execute(array(
+    'nom' => $_POST['nom'],
+    'prenom' => $_POST['prenom'],
+    'email' => $_POST['email']
+	'mdp'=>$_POST['mdp']
+));
+	header("Location: register.html");
+
+}
+
+else{
+	
+
+header("Location: register.html");
+}
+?>
